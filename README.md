@@ -1,2 +1,5 @@
 # ExemploPyWeb
-# primeiro commit teste
+#
+# Recomendado utilizar um ambiente virtual
+# 
+# pip install -r requiriments.txt
