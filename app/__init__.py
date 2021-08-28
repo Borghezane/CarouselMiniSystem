@@ -1,8 +1,15 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+# global number
+# global logUser 
+
+
 app = Flask(__name__)
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 app.config.from_object('config')
+
+
 db = SQLAlchemy(app)
 
 from app.controllers import default

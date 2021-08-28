@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>New User</title>
+
+		<link rel="stylesheet" href="{{ url_for('static',
+												filename='css/bootstrap.min.css') }}">
+	</head>
+	<body>
+
+
+
+	<div class="container">
+		<div class="d-flex justify-content-center h-100">
+			<div class="card">
+				<div class="card-header">
+		  			<h2 class="mb-2">New Carousel</h2>
+				</div>
+				<div class="card-body">
+					<form action="" method="POST">
+						<div class="input-group form-group">
+							{{ new_carousel_form.name(class="form-control", placeholder="Carousel Name") }}
+						</div>
+
+
+						<div class="d-flex justify-content-center h-100">
+							<div class="form-group">
+								<button type="submit" value="Login" class="btn float-left login_btn"> New Carousel</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% if message %}
+<div class="d-flex justify-content-center h-100">
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	  <strong>Message:</strong> {{ message }}
+	</div>
+</div>
+
+
+{% endif %}
+
+
+	<script src="{{ url_for('static',
+							filename='js/bootstrap.min.js') }}">
+	</script>
+	</body>
+</html>

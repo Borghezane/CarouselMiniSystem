@@ -13,25 +13,19 @@
 
 	<div class="container">
 		<div class="d-flex justify-content-center h-100">
-			<h4>DeleteUser</h4>
+			<h4>Image1</h4>
 		</div>
-		
-		<div class="d-flex justify-content-center h-100">
-			<form action="/deleteuser" method="POST">
-			<select id="deleteusername" name="deleteusername" required>
-				{% for u in allUsers %}
-					<option> {{ u.username }} </option>
-				{% endfor %}
-			</select>
-		</div>
-		
-		<div class="d-flex justify-content-center h-100">
-			<button type=submit>delete</button>
-		</div>
+		{% for image in all_images %}
+			<div class="d-flex justify-content-center h-100">
+				<img src="{{ url_for('static', filename='images/'+image.filename) }}" alt="Flowers in Chania">
+			</div>
+		{% endfor %}
+
 			
 		</form>
 	</div>
 	
+
 
 	
 
