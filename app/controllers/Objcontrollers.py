@@ -32,6 +32,16 @@ class UserController():
         else:
             # username already taken
             pass
+    def deleteUser(username, actualUser):
+        #print(username, password, role)
+        deleteUser = User.query.filter_by(username=username).first() 
+        print(username)
+        if( deleteUser and username != actualUser.username ):
+            db.session.delete(deleteUser)
+            db.session.commit()
+        else:
+            # invalid username
+            pass
         
 
 class CarouselController():
@@ -42,7 +52,17 @@ class CarouselController():
             db.session.add(newCarousel)
             db.session.commit()
         else:
-            # username already taken
+            # name already taken
+            pass
+
+    def deleteCarousel(name):
+        deleteCarousel = Carousel.query.filter_by(name=name).first() 
+        if( deleteCarousel ):
+            #newCarousel = Carousel(name)
+            db.session.delete(deleteCarousel)
+            db.session.commit()
+        else:
+            # this name does not belong to any carousel
             pass
         
 
@@ -82,6 +102,12 @@ class ImageController():
             db.session.commit()
         else:
             return False
+
+    def deleteImage(image):
+        #print(username, password, role)
+        print(image)
+        db.session.delete(image)
+        db.session.commit()
 
 
         

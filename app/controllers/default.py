@@ -63,7 +63,9 @@ def home():
 def showCarousel():
     carouselName = request.form.get('show_carousel')
     cr = Carousel.query.filter_by(name=carouselName).first()
-    return render_template('carousel.html', carousel_images=cr.images)
+    n_carousel_images = len(cr.images)
+    return render_template('carousel.html', carousel_images=cr.images, n_carousel_images=n_carousel_images)
+
 
 
 @app.route("/login",methods=["GET","POST"])
@@ -137,9 +139,19 @@ def newUser():
 
 
 
-@app.route("/deleteuser",methods=["GET","POST"])
-def deleteUser():
+# @app.route("/deleteuser",methods=["GET","POST"])
+# def deleteUser():
 
+
+#     deleteusername = request.form.get('deleteusername')
+#     removeUser = User.query.filter_by(username=deleteusername).first()
+#     db.session.delete(removeUser)
+#     db.session.commit()
+
+#     return redirect("/deleteuser", code=302)
+
+@app.route("/deleteUser",methods=["GET","POST"])
+def deleteUser():
     global logUser
     if( not logUser ):
         ########################################
@@ -152,17 +164,14 @@ def deleteUser():
         #
         return redirect("/home", code=302)
     deleteusername = request.form.get('deleteusername')
-    removeUser = User.query.filter_by(username=deleteusername).first()
-    db.session.delete(removeUser)
-    db.session.commit()
-
-    return redirect("/showusers", code=302)
-
-@app.route("/showusers",methods=["GET"])
-def showusers():
+    if( deleteusername != None ):
+        UserController.deleteUser(deleteusername, logUser)
 
     allUsers = User.query.all()
-    return render_template('showusers.html',allUsers=allUsers)
+    for user in allUsers:
+        if( user.username == logUser.username ):
+            allUsers.remove(user)
+    return render_template('chooseDeleteUser.html',allUsers=allUsers)
 
 
 
@@ -191,6 +200,29 @@ def newCarousel():
         else:
             return render_template('newcarousel.html',new_carousel_form=new_carousel_form)
 
+@app.route("/deleteCarousel",methods=["GET","POST"])
+def deleteCarousel():
+    global logUser
+    if( not logUser ):
+        ########################################
+        # need login, maybe send error message?
+        #
+        return redirect("/login", code=302)
+    elif logUser.role != "admin":
+        ########################################
+        # not admin 
+        #
+        return redirect("/home", code=302)
+    deleteCarouselName = request.form.get('deleteCarouselName')
+    if( deleteCarouselName != None ):
+        CarouselController.deleteCarousel(deleteCarouselName)
+        #return deleteCarouselName
+
+    all_carousel = Carousel.query.all()
+
+    return render_template('chooseDeleteCarousel.html',all_carousel=all_carousel)
+
+
 
 @app.route("/newImage",methods=["GET","POST"])
 def newImage():
@@ -214,9 +246,43 @@ def newImage():
             return render_template('newImage.html',new_image_form=new_image_form, message="sucessful upload")
         else:
             return render_template('newImage.html',new_image_form=new_image_form)
+
+@app.route("/deleteImage",methods=["GET","POST"])
+def deleteImage():
+
+    global logUser
+    if( not logUser ):
+        ########################################
+        # need login, maybe send error message?
+        #
+        return redirect("/login", code=302)
+    elif logUser.role != "admin":
+        ########################################
+        # not admin 
+        #
+        return redirect("/home", code=302)
+
+    
+
+    all_images = Image.query.all()
+    submit  =  request.form.get('checkSubmit')
+    if( submit != None ):
+        for image in all_images:
+            checkImage = request.form.get('check_'+str(image.id))
+            if(checkImage != None ):   
+                ImageController.deleteImage(image)
+                all_images.remove(image)
+
+
+    n_all_images = len(all_images)
+
+    #editCarousel.name
+    #carousel_images = editCarousel.Images
+    
+    return render_template('chooseDeleteImage.html',all_images=all_images, n_all_images=n_all_images)
+    
+
         
-
-
 
 
 

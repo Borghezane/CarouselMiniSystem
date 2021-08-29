@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>First page</title>
+		<title>Carousel Admin</title>
 
 		<link rel="stylesheet" href="{{ url_for('static',
 												filename='css/bootstrap.min.css') }}">
@@ -18,13 +18,22 @@
 			<button onclick="location.href='/newUser'" type="button">new User</button>
 		</div>
 		<div class="d-flex justify-content-center h-100">
+			<button onclick="location.href='/deleteUser'" type="button">Delete User</button>
+		</div>
+		<div class="d-flex justify-content-center h-100">
 			<button onclick="location.href='/newCarousel'" type="button">new Carousel</button>
 		</div>
 		<div class="d-flex justify-content-center h-100">
 			<button onclick="location.href='/chooseCarousel'" type="button">Edit Carousel</button>
 		</div>
 		<div class="d-flex justify-content-center h-100">
+			<button onclick="location.href='/deleteCarousel'" type="button">Delete Carousel</button>
+		</div>
+		<div class="d-flex justify-content-center h-100">
 			<button onclick="location.href='/newImage'" type="button">new Image</button>
+		</div>
+		<div class="d-flex justify-content-center h-100">
+			<button onclick="location.href='/deleteImage'" type="button">Delete Image</button>
 		</div>
 		<div class="d-flex justify-content-center h-100">
 			<button onclick="location.href='/logout'" type="button">Logout</button>

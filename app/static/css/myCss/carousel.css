@@ -1,0 +1,8 @@
+.carousel slide{
+  max-height: 20%;
+  min-width: 20%;
+}
+img {
+  height: 300px;
+  object-fit: contain;
+}
