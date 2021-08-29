@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Index</title>
+
+		<link rel="stylesheet" href="{{ url_for('static',
+												filename='css/bootstrap.min.css') }}">
+	</head>
+	<body>
+
+
+
+	<div class="container">
+		<div class="d-flex justify-content-center h-100">
+			<h4>Choose a Carousel</h4>
+		</div>
+		
+		<div class="d-flex justify-content-center h-100">
+			<form action="/showCarousel" method="POST">
+			<select id="show_carousel" name="show_carousel" required>
+				{% for c in all_carousel %}
+					<option> {{ c.name }} </option>
+				{% endfor %}
+			</select>
+		</div>
+		
+		<div class="d-flex justify-content-center h-100">
+			<button type=submit>open</button>
+		</div>
+			
+		</form>
+	</div>
+	
+
+	
+
+
+	<script src="{{ url_for('static',
+							filename='js/bootstrap.min.js') }}">
+	</script>
+	</body>
+</html>

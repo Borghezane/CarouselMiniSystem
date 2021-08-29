@@ -53,9 +53,18 @@ logUser = None
 #     '''
 
 @app.route("/")
-@app.route("/index")
-def index():
-    return render_template('index.html')
+@app.route("/home")
+@app.route("/homepage")
+def home():
+    all_carousel = Carousel.query.all()
+    return render_template('home.html', all_carousel=all_carousel)
+
+@app.route("/showCarousel",methods=["GET","POST"])
+def showCarousel():
+    carouselName = request.form.get('show_carousel')
+    cr = Carousel.query.filter_by(name=carouselName).first()
+    return render_template('carousel.html', carousel_images=cr.images)
+
 
 @app.route("/login",methods=["GET","POST"])
 def login():
@@ -101,7 +110,7 @@ def dashboard():
         ########################################
         # not admin 
         #
-        return redirect("/index", code=302)
+        return redirect("/home", code=302)
     return render_template('dashboard.html', log_user=logUser)
 
 @app.route("/newUser",methods=["GET","POST"])
@@ -117,7 +126,7 @@ def newUser():
         ########################################
         # not admin 
         #
-        return redirect("/index", code=302)
+        return redirect("/home", code=302)
     else:
         new_user_form = NewUserForm()
         if( new_user_form.isFilled() ):
@@ -141,7 +150,7 @@ def deleteUser():
         ########################################
         # not admin 
         #
-        return redirect("/index", code=302)
+        return redirect("/home", code=302)
     deleteusername = request.form.get('deleteusername')
     removeUser = User.query.filter_by(username=deleteusername).first()
     db.session.delete(removeUser)
@@ -172,7 +181,7 @@ def newCarousel():
         ########################################
         # not admin 
         #
-        return redirect("/index", code=302)
+        return redirect("/home", code=302)
     else:
         new_carousel_form = NewCarouselForm()
         if( new_carousel_form.isFilled() ):
@@ -196,7 +205,7 @@ def newImage():
         ########################################
         # not admin 
         #
-        return redirect("/index", code=302)
+        return redirect("/home", code=302)
     else:
         new_image_form = NewImageForm()
         if( new_image_form.isFilled() ):
