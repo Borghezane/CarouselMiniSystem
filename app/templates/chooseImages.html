@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>First page</title>
+
+		<link rel="stylesheet" href="{{ url_for('static',
+												filename='css/bootstrap.min.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static',
+												filename='css/myCss/image.css') }}">
+	</head>
+	<body>
+
+
+<form action="" method="POST">
+	<input type = "hidden" id = "checkSubmit" name = "checkSubmit" value="1" >
+	<input type = "hidden" id = "edit_carousel" name = "edit_carousel" value="{{ edit_carousel }}" >
+	<div class="container">
+		<div class="row">
+		{% for imageIndex in range(n_all_images) %}
+
+			<div class="col-sm">
+				<img class="img-fluid" src="{{ url_for('static', filename='images/'+all_images[imageIndex].filename) }}"  alt="lay">	
+				{% set checkid = all_images[imageIndex].id | string() %}
+				<input type = "checkbox" id = "{{ 'check_'+checkid }}" name = "{{ 'check_'+checkid }}" {{ checkList[checkid] }} >
+			</div>	
+
+			{% if (imageIndex)%3 == 2 %}
+		</div>
+		<div class="row">
+			{% endif %}
+		{% endfor %}
+	  
+	    </div>
+	  </div>
+	  <input type="submit" name="submit_button">submit</input>
+	</div>
+</form>
+
+
+<!-- <form action="/" method="POST">
+	<div class="h-75 d-inline-block">
+		<table>
+			<tr>
+			{% for imageIndex in range(n_all_images) %}
+				
+					<div class="mh-50" >
+						<td>
+							<img class="rounded" src="{{ url_for('static', filename='images/'+all_images[imageIndex].filename) }}"  alt="lay">	
+							{% set checkid = all_images[imageIndex].id | string() %}
+							<input type = "checkbox" id = "{{ 'check_'+checkid }}" name = "{{ 'check_'+checkid }}" value = "newsletter">
+						</td>
+					</div>
+				</div>	
+
+			{% if (imageIndex)%3 == 2 %}
+			</tr>
+			<tr>
+				{% endif %}
+		    {% endfor %}
+		    </th>
+	  
+
+		</table>
+	</div>
+	<div class="float-right">
+		<button type="submit">Submit</button>
+	</div>
+</form>
+ -->
+
+<!-- 	<div class="container">
+		<div class="row">
+			<div class="col-12 col-sm-8 col-lg-5">
+				<h6 class="text-muted">List Group with Images</h6> 
+				{% for image in all_images %}
+					<ul class="list-group">					
+		              	<img class="rounded float-right" src="{{ url_for('static', filename='images/'+image.filename) }}" class="img-fluid" alt="lay">
+      				</ul>
+      			{% endfor %}
+    		</div>
+  		</div>
+	</div>
+ -->
+
+
+	
+
+
+
+	<script src="{{ url_for('static',
+							filename='js/bootstrap.min.js') }}">
+	</script>
+	</body>
+</html>
+

@@ -212,23 +212,56 @@ def newImage():
 
 
 
-@app.route('/editCarousel', methods=['GET','POST'])
-def editCarousel():
+@app.route('/chooseCarousel', methods=['GET','POST'])
+def chooseCarousel():
     all_Carousel = Carousel.query.all()
 
-    editname = request.form.get('edit_carousel')
-    if(editname != None):
-        editCarousel = Carousel.query.filter_by(name=editCarousel).first()
+    # editname = request.form.get('edit_carousel')
+    # if(editname != None):
+    #     editCarousel = Carousel.query.filter_by(name=editCarousel).first()
         ######################################################################
         # show all carousels and put a checkbox to add in current carousel
         #return render_template('editCarousel.html',all_Carousel=all_Carousel)
-    return render_template('editCarousel.html',all_Carousel=all_Carousel)
+    return render_template('chooseCarousel.html',all_Carousel=all_Carousel)
 
 
-@app.route('/showImages', methods=['GET'])
-def showImages():
+@app.route('/editCarousel', methods=['GET','POST'])
+def editCarousel():
     all_images = Image.query.all()
 
+    n_all_images = len(all_images)
 
-    return render_template('showImages.html',all_images=all_images)
+    editname = request.form.get('edit_carousel')
+    submit  =  request.form.get('checkSubmit')
+    editCarousel = Carousel.query.filter_by(name=editname).first()
+    #print(submit)
+    if( submit != None ):
+        for image in all_images:
+            checkImage = request.form.get('check_'+str(image.id))
+            if(checkImage != None and image not in editCarousel.images):   
+                editCarousel.images.append( image )
+            elif( checkImage == None and image in editCarousel.images):
+                editCarousel.images.remove( image )
+
+        db.session.commit()
+    checkList = dict()
+    for image in all_images:
+        if image in editCarousel.images :
+            checkList[str(image.id)] = 'checked'
+        else:
+            checkList[str(image.id)] = ''
+    #editCarousel.name
+    #carousel_images = editCarousel.Images
+    
+    return render_template('chooseImages.html',all_images=all_images, n_all_images=n_all_images, edit_carousel=editname, checkList=checkList)
+ 
+
+
+
+# @app.route('/showImages', methods=['GET'])
+# def showImages():
+#     all_images = Image.query.all()
+
+#     n_all_images = len(all_images)
+#     return render_template('showImages.html',all_images=all_images, n_all_images=n_all_images)
 

@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>First page</title>
+
+		<link rel="stylesheet" href="{{ url_for('static',
+												filename='css/bootstrap.min.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static',
+												filename='css/myCss/image.css') }}">
+	</head>
+	<body>
+
+<form action="/" method="POST">
+	<table>
+		<tr>
+		{% for imageIndex in range(n_all_images) %}
+			<div class="h-50 d-inline-block">
+				<div class="mh-50" >
+					<td>
+						<img  src="{{ url_for('static', filename='images/'+all_images[imageIndex].filename) }}" class="img-fluid" alt="lay">	
+
+					</td>
+				</div>
+			</div>	
+
+		{% if (imageIndex)%3 == 2 %}
+		</tr>
+		<tr>
+			{% endif %}
+	    {% endfor %}
+	    </th>
+	  
+
+	</table>
+</form>
+
+
+<!-- 	<div class="container">
+		<div class="row">
+			<div class="col-12 col-sm-8 col-lg-5">
+				<h6 class="text-muted">List Group with Images</h6> 
+				{% for image in all_images %}
+					<ul class="list-group">					
+		              	<img class="rounded float-right" src="{{ url_for('static', filename='images/'+image.filename) }}" class="img-fluid" alt="lay">
+      				</ul>
+      			{% endfor %}
+    		</div>
+  		</div>
+	</div>
+ -->
+
+
+	
+
+
+
+	<script src="{{ url_for('static',
+							filename='js/bootstrap.min.js') }}">
+	</script>
+	</body>
+</html>
+
