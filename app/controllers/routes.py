@@ -298,11 +298,11 @@ def deleteImage():
     if( submit != None ):
         for image in all_images:
             checkImage = request.form.get('check_'+str(image.id))
-            if(checkImage != None ):   
+            if( checkImage != None ):   
                 ImageController.deleteImage(image)
-                all_images.remove(image)
+                #all_images.remove(image)
 
-
+    all_images = Image.query.all()
     n_all_images = len(all_images)
 
     #editCarousel.name
@@ -340,7 +340,7 @@ def chooseCarousel():
         # show all carousels and put a checkbox to add in current carousel
         #return render_template('editCarousel.html',all_Carousel=all_Carousel)
     secForm = FlaskForm()
-    return render_template('chooseCarousel.html', secForm = secForm,all_Carousel=all_Carousel)
+    return render_template('chooseCarousel.html', secForm = secForm, all_Carousel=all_Carousel)
 
 
 @app.route('/editcarousel', methods=['GET','POST'])
