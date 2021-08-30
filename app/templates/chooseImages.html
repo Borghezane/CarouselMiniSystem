@@ -2,17 +2,18 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>First page</title>
+		<title>Carousel Admin</title>
 
 		<link rel="stylesheet" href="{{ url_for('static',
 												filename='css/bootstrap.min.css') }}">
-		<link rel="stylesheet" href="{{ url_for('static',
-												filename='css/myCss/image.css') }}">
+		  <link rel="stylesheet" href="{{ url_for('static',
+												filename='css/myCss/mycss.css') }}">
 	</head>
 	<body>
 
 
 <form action="" method="POST">
+	{{ secForm.csrf_token }}
 	<input type = "hidden" id = "checkSubmit" name = "checkSubmit" value="1" >
 	<input type = "hidden" id = "edit_carousel" name = "edit_carousel" value="{{ edit_carousel }}" >
 	<div class="container">
@@ -33,7 +34,7 @@
 	  
 	    </div>
 	  </div>
-	  <input type="submit" name="submit_button">submit</input>
+	  <input type="submit" name="submit_button" value="submit"></input>
 	</div>
 </form>
 

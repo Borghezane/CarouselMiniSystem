@@ -7,6 +7,8 @@ from werkzeug.utils import secure_filename
 import uuid
 from pathlib import Path
 
+import hashlib
+
 class UserController():
 
     ###################################################
@@ -18,7 +20,9 @@ class UserController():
         for u in allUsers:
             #print(u.username, username)
             if (u.username == username):
-                if( u.password == password):
+                md5pass = hashlib.sha256(str(password).encode('utf-8'))
+                md5pass = md5pass.hexdigest()
+                if( u.password == md5pass):
                     return u
                 return 1
         return 0
@@ -26,12 +30,15 @@ class UserController():
         #print(username, password, role)
         search = User.query.filter_by(username=username).first() 
         if( not search ):
-            newUser = User(username, password, role)
+            md5pass = hashlib.sha256(str(password).encode('utf-8'))
+            md5pass = md5pass.hexdigest()
+            newUser = User(username, md5pass, role)
             db.session.add(newUser)
             db.session.commit()
+            return True
         else:
             # username already taken
-            pass
+            return False
     def deleteUser(username, actualUser):
         #print(username, password, role)
         deleteUser = User.query.filter_by(username=username).first() 
@@ -51,9 +58,10 @@ class CarouselController():
             newCarousel = Carousel(name)
             db.session.add(newCarousel)
             db.session.commit()
+            return True
         else:
             # name already taken
-            pass
+            return False
 
     def deleteCarousel(name):
         deleteCarousel = Carousel.query.filter_by(name=name).first() 
@@ -64,8 +72,14 @@ class CarouselController():
         else:
             # this name does not belong to any carousel
             pass
-        
 
+    def deleteCarouselImage(carousel, image):
+        carousel.images.remove( image )
+        db.session.commit()
+
+    def addCarouselImage(carousel, image):
+        carousel.images.append( image )
+        db.session.commit()
 
 
 

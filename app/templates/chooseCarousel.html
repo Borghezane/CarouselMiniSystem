@@ -2,10 +2,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>First page</title>
+		<title>Carousel Admin</title>
 
 		<link rel="stylesheet" href="{{ url_for('static',
 												filename='css/bootstrap.min.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static',
+												filename='css/myCss/mycss.css') }}">
 	</head>
 	<body>
 
@@ -17,17 +19,18 @@
 		</div>
 		
 		<div class="d-flex justify-content-center h-100">
-			<form action="/editCarousel" method="POST">
-			<select id="edit_carousel" name="edit_carousel" required>
-				{% for c in all_Carousel %}
-					<option> {{ c.name }} </option>
-				{% endfor %}
-			</select>
+			<form action="/editcarousel" method="POST">
+				{{ secForm.csrf_token }}
+				<select id="edit_carousel" name="edit_carousel" required>
+					{% for c in all_Carousel %}
+						<option> {{ c.name }} </option>
+					{% endfor %}
+				</select>
 		</div>
 		
-		<div class="d-flex justify-content-center h-100">
-			<button type=submit>edit</button>
-		</div>
+			<div class="d-flex justify-content-center h-100">
+				<button type=submit>edit</button>
+			</div>
 			
 		</form>
 	</div>

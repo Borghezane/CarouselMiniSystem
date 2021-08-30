@@ -3,16 +3,19 @@ from app import app, db
 
 from app.controllers.Objcontrollers import UserController, CarouselController, ImageController
 from app.models.forms import LoginForm, NewUserForm, NewCarouselForm, NewImageForm
+from flask_wtf import FlaskForm
 from app.models.tables import User, Image, Carousel
+from flask_wtf.csrf import CSRFProtect
 
 
 
 #from app import logUser, number
 
+csrf = CSRFProtect()
+csrf.init_app(app)
 
 logUser = None
 #number  = IMAGE_LAST_NUMBER
-
 
 
 
@@ -57,9 +60,10 @@ logUser = None
 @app.route("/homepage")
 def home():
     all_carousel = Carousel.query.all()
-    return render_template('home.html', all_carousel=all_carousel)
+    secForm = FlaskForm()
+    return render_template('home.html', secForm=secForm, all_carousel=all_carousel)
 
-@app.route("/showCarousel",methods=["GET","POST"])
+@app.route("/showcarousel",methods=["GET","POST"])
 def showCarousel():
     carouselName = request.form.get('show_carousel')
     cr = Carousel.query.filter_by(name=carouselName).first()
@@ -115,8 +119,9 @@ def dashboard():
         return redirect("/home", code=302)
     return render_template('dashboard.html', log_user=logUser)
 
-@app.route("/newUser",methods=["GET","POST"])
+@app.route("/newuser",methods=["GET","POST"])
 def newUser():
+
 
     global logUser
     if( not logUser ):
@@ -132,9 +137,12 @@ def newUser():
     else:
         new_user_form = NewUserForm()
         if( new_user_form.isFilled() ):
-            UserController.createNewUser(new_user_form.username.data, new_user_form.password.data, new_user_form.role.data)
+            create = UserController.createNewUser(new_user_form.username.data, new_user_form.password.data, new_user_form.role.data)
             #return render_template('dashboard.html', log_user=logUser, message="sucessful new user register")
-            return redirect("/dashboard", code=302)
+            if( not create ):
+                return render_template('newuser.html',new_user_form=new_user_form, error="username already taken")
+            else:
+                return redirect("/dashboard", code=302)
         return render_template('newuser.html',new_user_form=new_user_form)
 
 
@@ -150,7 +158,7 @@ def newUser():
 
 #     return redirect("/deleteuser", code=302)
 
-@app.route("/deleteUser",methods=["GET","POST"])
+@app.route("/deleteuser",methods=["GET","POST"])
 def deleteUser():
     global logUser
     if( not logUser ):
@@ -167,17 +175,18 @@ def deleteUser():
     if( deleteusername != None ):
         UserController.deleteUser(deleteusername, logUser)
 
+    secForm = FlaskForm()
     allUsers = User.query.all()
     for user in allUsers:
         if( user.username == logUser.username ):
             allUsers.remove(user)
-    return render_template('chooseDeleteUser.html',allUsers=allUsers)
+    return render_template('chooseDeleteUser.html',allUsers=allUsers, secForm = secForm)
 
 
 
 
 
-@app.route("/newCarousel",methods=["GET","POST"])
+@app.route("/newcarousel",methods=["GET","POST"])
 def newCarousel():
 
     global logUser
@@ -195,12 +204,15 @@ def newCarousel():
         new_carousel_form = NewCarouselForm()
         if( new_carousel_form.isFilled() ):
             #create carousel
-            CarouselController.createNewCarousel(new_carousel_form.name.data)
-            return render_template('newcarousel.html',new_carousel_form=new_carousel_form, message="sucessful upload")
+            create = CarouselController.createNewCarousel(new_carousel_form.name.data)
+            if( not create ):
+                return render_template('newcarousel.html', new_carousel_form=new_carousel_form, error="invalid name")
+            else:
+                return render_template('newcarousel.html', new_carousel_form=new_carousel_form, message="sucessful create carousel")
         else:
-            return render_template('newcarousel.html',new_carousel_form=new_carousel_form)
+            return render_template('newcarousel.html', new_carousel_form=new_carousel_form)
 
-@app.route("/deleteCarousel",methods=["GET","POST"])
+@app.route("/deletecarousel",methods=["GET","POST"])
 def deleteCarousel():
     global logUser
     if( not logUser ):
@@ -220,11 +232,13 @@ def deleteCarousel():
 
     all_carousel = Carousel.query.all()
 
-    return render_template('chooseDeleteCarousel.html',all_carousel=all_carousel)
+    secForm = FlaskForm()
+
+    return render_template('chooseDeleteCarousel.html', secForm=secForm, all_carousel=all_carousel)
 
 
 
-@app.route("/newImage",methods=["GET","POST"])
+@app.route("/newimage",methods=["GET","POST"])
 def newImage():
 
     global logUser
@@ -247,7 +261,7 @@ def newImage():
         else:
             return render_template('newImage.html',new_image_form=new_image_form)
 
-@app.route("/deleteImage",methods=["GET","POST"])
+@app.route("/deleteimage",methods=["GET","POST"])
 def deleteImage():
 
     global logUser
@@ -278,8 +292,9 @@ def deleteImage():
 
     #editCarousel.name
     #carousel_images = editCarousel.Images
+    secForm = FlaskForm()
     
-    return render_template('chooseDeleteImage.html',all_images=all_images, n_all_images=n_all_images)
+    return render_template('chooseDeleteImage.html', secForm=secForm, all_images=all_images, n_all_images=n_all_images)
     
 
         
@@ -287,7 +302,7 @@ def deleteImage():
 
 
 
-@app.route('/chooseCarousel', methods=['GET','POST'])
+@app.route('/choosecarousel', methods=['GET','POST'])
 def chooseCarousel():
     all_Carousel = Carousel.query.all()
 
@@ -297,11 +312,28 @@ def chooseCarousel():
         ######################################################################
         # show all carousels and put a checkbox to add in current carousel
         #return render_template('editCarousel.html',all_Carousel=all_Carousel)
-    return render_template('chooseCarousel.html',all_Carousel=all_Carousel)
+    secForm = FlaskForm()
+    return render_template('chooseCarousel.html', secForm = secForm,all_Carousel=all_Carousel)
 
 
-@app.route('/editCarousel', methods=['GET','POST'])
+@app.route('/editcarousel', methods=['GET','POST'])
 def editCarousel():
+
+    global logUser
+    if( not logUser ):
+        ########################################
+        # need login, maybe send error message?
+        #
+        return redirect("/login", code=302)
+    elif logUser.role != "admin":
+        ########################################
+        # not admin 
+        #
+        return redirect("/home", code=302)
+    
+    editname = request.form.get('edit_carousel')
+    if( editname == None ):
+        return redirect("/choosecarousel", code=302)
     all_images = Image.query.all()
 
     n_all_images = len(all_images)
@@ -313,12 +345,11 @@ def editCarousel():
     if( submit != None ):
         for image in all_images:
             checkImage = request.form.get('check_'+str(image.id))
-            if(checkImage != None and image not in editCarousel.images):   
-                editCarousel.images.append( image )
+            if(checkImage != None and image not in editCarousel.images):
+                CarouselController.addCarouselImage(editCarousel, image) 
             elif( checkImage == None and image in editCarousel.images):
-                editCarousel.images.remove( image )
+                CarouselController.deleteCarouselImage(editCarousel, image) 
 
-        db.session.commit()
     checkList = dict()
     for image in all_images:
         if image in editCarousel.images :
@@ -327,8 +358,9 @@ def editCarousel():
             checkList[str(image.id)] = ''
     #editCarousel.name
     #carousel_images = editCarousel.Images
+    secForm = FlaskForm()
     
-    return render_template('chooseImages.html',all_images=all_images, n_all_images=n_all_images, edit_carousel=editname, checkList=checkList)
+    return render_template('chooseImages.html', secForm = secForm, all_images=all_images, n_all_images=n_all_images, edit_carousel=editname, checkList=checkList)
  
 
 

@@ -12,7 +12,7 @@ app.config.from_object('config')
 
 db = SQLAlchemy(app)
 
-from app.controllers import default
+from app.controllers import routes
 from app.models.tables import User
 
 

@@ -2,12 +2,14 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>First page</title>
+		<title>Carousel Admin</title>
 
+  		
 		<link rel="stylesheet" href="{{ url_for('static',
 												filename='css/bootstrap.min.css') }}">
-		<link rel="stylesheet" href="{{ url_for('static',
-												filename='css/myCss/image.css') }}">
+		 <link rel="stylesheet" href="{{ url_for('static',
+												filename='css/myCss/mycss.css') }}">
+
 	</head>
 	<body>
 
@@ -35,20 +37,6 @@
 	</table>
 </form>
 
-
-<!-- 	<div class="container">
-		<div class="row">
-			<div class="col-12 col-sm-8 col-lg-5">
-				<h6 class="text-muted">List Group with Images</h6> 
-				{% for image in all_images %}
-					<ul class="list-group">					
-		              	<img class="rounded float-right" src="{{ url_for('static', filename='images/'+image.filename) }}" class="img-fluid" alt="lay">
-      				</ul>
-      			{% endfor %}
-    		</div>
-  		</div>
-	</div>
- -->
 
 
 	
