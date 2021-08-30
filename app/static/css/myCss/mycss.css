@@ -1,0 +1,29 @@
+.carousel.slide {
+    width: 50%; 
+    max-width: 40%; !important
+}
+
+img {
+  height: 300px;
+  width: 300px;
+  object-fit: contain;
+}
+
+.img-description {
+  color: white;
+  text-shadow: 0 0 2px gray;
+}
+.limitCarousel {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+body {
+	background-color: #c0c0c0;
+}
+
+.menu li { 
+  display: none;
+}
+

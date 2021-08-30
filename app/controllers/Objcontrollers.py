@@ -7,6 +7,7 @@ from werkzeug.utils import secure_filename
 import uuid
 from pathlib import Path
 
+
 import hashlib
 
 class UserController():
@@ -118,11 +119,13 @@ class ImageController():
             return False
 
     def deleteImage(image):
-        #print(username, password, role)
-        print(image)
+        #print(image)
+        os.remove(app.config['UPLOAD_FOLDER'] + '/' + image.filename)
+        #global UPLOAD_FOLDER
         db.session.delete(image)
         db.session.commit()
 
+        
 
         
 

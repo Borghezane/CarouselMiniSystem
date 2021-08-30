@@ -59,13 +59,28 @@ logUser = None
 @app.route("/home")
 @app.route("/homepage")
 def home():
+    global logUser
+    if( not logUser ):
+        ########################################
+        # need login, maybe send error message?
+        #
+        return redirect("/login", code=302)
+
     all_carousel = Carousel.query.all()
     secForm = FlaskForm()
     return render_template('home.html', secForm=secForm, all_carousel=all_carousel)
 
 @app.route("/showcarousel",methods=["GET","POST"])
 def showCarousel():
+    global logUser
+    if( not logUser ):
+        ########################################
+        # need login, maybe send error message?
+        #
+        return redirect("/login", code=302)
     carouselName = request.form.get('show_carousel')
+    if( carouselName == None ):
+         return redirect("/home", code=302)
     cr = Carousel.query.filter_by(name=carouselName).first()
     n_carousel_images = len(cr.images)
     return render_template('carousel.html', carousel_images=cr.images, n_carousel_images=n_carousel_images)
@@ -304,6 +319,18 @@ def deleteImage():
 
 @app.route('/choosecarousel', methods=['GET','POST'])
 def chooseCarousel():
+    global logUser
+    if( not logUser ):
+        ########################################
+        # need login, maybe send error message?
+        #
+        return redirect("/login", code=302)
+    elif logUser.role != "admin":
+        ########################################
+        # not admin 
+        #
+        return redirect("/home", code=302)
+
     all_Carousel = Carousel.query.all()
 
     # editname = request.form.get('edit_carousel')
@@ -349,6 +376,7 @@ def editCarousel():
                 CarouselController.addCarouselImage(editCarousel, image) 
             elif( checkImage == None and image in editCarousel.images):
                 CarouselController.deleteCarouselImage(editCarousel, image) 
+        return redirect("/choosecarousel", code=302)
 
     checkList = dict()
     for image in all_images:

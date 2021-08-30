@@ -10,7 +10,12 @@
 												filename='css/myCss/mycss.css') }}">
 	</head>
 	<body>
-
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
 
 <form action="" method="POST">
 	{{ secForm.csrf_token }}
@@ -33,61 +38,30 @@
 	  
 	    </div>
 	  </div>
-	  <input type="submit" name="submit_button" value="submit"></input>
-	</div>
-</form>
-
-
-<!-- <form action="/" method="POST">
-	<div class="h-75 d-inline-block">
-		<table>
-			<tr>
-			{% for imageIndex in range(n_all_images) %}
-				
-					<div class="mh-50" >
-						<td>
-							<img class="rounded" src="{{ url_for('static', filename='images/'+all_images[imageIndex].filename) }}"  alt="lay">	
-							{% set checkid = all_images[imageIndex].id | string() %}
-							<input type = "checkbox" id = "{{ 'check_'+checkid }}" name = "{{ 'check_'+checkid }}" value = "newsletter">
-						</td>
-					</div>
-				</div>	
-
-			{% if (imageIndex)%3 == 2 %}
-			</tr>
-			<tr>
-				{% endif %}
-		    {% endfor %}
-		    </th>
 	  
-
-		</table>
 	</div>
-	<div class="float-right">
-		<button type="submit">Submit</button>
+
+
+
+
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="d-flex justify-content-center h-100">
+		<input type="submit" name="submit_button" value="submit"></input>
 	</div>
-</form>
- -->
-
-<!-- 	<div class="container">
-		<div class="row">
-			<div class="col-12 col-sm-8 col-lg-5">
-				<h6 class="text-muted">List Group with Images</h6> 
-				{% for image in all_images %}
-					<ul class="list-group">					
-		              	<img class="rounded float-right" src="{{ url_for('static', filename='images/'+image.filename) }}" class="img-fluid" alt="lay">
-      				</ul>
-      			{% endfor %}
-    		</div>
-  		</div>
-	</div>
- -->
-
-
 	
+</form>
+	<footer>
 
+		<div class="d-flex justify-content-center h-100">
+			<button onclick="location.href='/dashboard'">Back to Dashboard</button>
+		</div>
 
-
+	</footer>
 	<script src="{{ url_for('static',
 							filename='js/bootstrap.min.js') }}">
 	</script>
