@@ -28,5 +28,8 @@ Perfect! Its running.
 
 look in console the address and port flask is using
 
-in your navegator user address:port/login to acess the admin with username and password you choose on python shell
-use  address:port/ or  address:port/home to look yours carousels
+in your navegator use
+* address:port/login
+to acess the admin with username and password you choose on python shell
+*address:port/ or  address:port/home
+to look yours carousels
