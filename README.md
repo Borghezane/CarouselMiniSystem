@@ -5,7 +5,7 @@ Install pip for python3 and use requiriments.txt to get all libs we need:
 * pip install -r requiriments.txt
 
 open config.py and change SQLALCHEMY_DATABASE_URI var for your conection with database
-if you are in trouble look this:
+if you are in trouble look at this:
 * https://flask-sqlalchemy.palletsprojects.com/en/2.x/config/
 
 
@@ -28,8 +28,8 @@ Perfect! Its running.
 
 look in console the address and port flask is using
 
-in your navegator use
+in your browser use
 * **address:port/login**
-to acess the admin with username and password you choose on python shell
+to acess the admin with username and password you chose on python shell
 * **address:port/** or  **address:port/home**
-to look yours carousels
+to see your carousels
