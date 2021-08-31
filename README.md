@@ -2,7 +2,7 @@
 #
 
 Install pip for python3 and use requiriments.txt to get all libs we need:
-*pip install -r requiriments.txt
+* pip install -r requiriments.txt
 
 open config.py and change SQLALCHEMY_DATABASE_URI var for your conection with database
 if you are in trouble look this:
